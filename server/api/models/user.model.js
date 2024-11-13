@@ -11,10 +11,12 @@ const userSchema = new Schema({
         required : true,
         unique : true
     },
-    email : {
+    password : {
         type : String,
         required : true,
     }
 }, {timestamps : true});
 
-export const User = model('User', userSchema);
+const User = model('User', userSchema);
+
+export default User;
