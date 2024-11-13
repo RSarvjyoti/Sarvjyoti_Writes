@@ -15,6 +15,16 @@ app.use(express.json());
 app.use('/api', userRoute);
 app.use('/api/auth', authRoute);
 
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Enternal server error"
+    res.status(statusCode).json({
+        success : false,
+        statusCode,
+        message
+    });
+});
+
 app.listen(PORT, async () => {
     await connectDb(DB_URL)
     console.log(`Server is runnig at http://localhost:${PORT}`);
