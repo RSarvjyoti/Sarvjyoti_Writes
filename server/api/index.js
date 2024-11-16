@@ -4,6 +4,7 @@ import {config} from 'dotenv'
 import  userRoute  from "./routes/user.route.js";
 import authRoute from './routes/auth.route.js'
 
+
 config();
 const app = express();
 const PORT = process.env.PORT || 9080
