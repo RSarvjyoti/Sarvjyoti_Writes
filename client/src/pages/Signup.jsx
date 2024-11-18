@@ -1,11 +1,14 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function Signup() {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(""); // Define error message state
+  const [loading, setLoading] = useState(false); // Define loading state
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -13,20 +16,21 @@ export function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when form submission starts
     try {
       const res = await axios.post('/api/auth/signup', formData); // Axios POST request
       const data = res.data;
 
       if (data.success === false) {
         return setErrorMessage(data.message); // Set error message if signup failed
-      }
-
-      console.log("Signup Successful:", data);
-      setFormData({}); // Clear form data
-      setErrorMessage(""); // Clear any previous error messages
+      } 
+      setLoading(false);
+      navigate('/sign-in');
     } catch (error) {
       console.error("Signup Failed:", error.response?.data || error.message);
       setErrorMessage(error.response?.data?.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false); // Set loading to false after submission is complete
     }
   };
 
@@ -76,11 +80,15 @@ export function Signup() {
                 onChange={handleChange}
               />
             </div>
-            {errorMessage && ( // Display error message
+            {errorMessage && (
               <p className="text-red-500 text-sm">{errorMessage}</p>
             )}
-            <Button gradientDuoTone="purpleToPink" type="submit">
-              Sign Up
+            <Button
+              gradientDuoTone="purpleToPink"
+              type="submit"
+              disabled={loading} // Disable button while loading
+            >
+              {loading ? "Signing Up..." : "Sign Up"} {/* Show loading text */}
             </Button>
           </form>
           <div className="flex gap-2 text-sm mt-5">
