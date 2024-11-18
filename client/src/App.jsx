@@ -5,6 +5,7 @@ import { Signup } from "./pages/Signup";
 import { About } from "./pages/About";
 import { Dashboard } from "./pages/Dashboard";
 import { MyHeader } from "./components/MyHeader";
+import MyFooter from "./components/MyFooter";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
+      <MyFooter />
     </>
   );
 }
