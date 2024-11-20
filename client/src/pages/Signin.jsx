@@ -2,12 +2,17 @@ import { Button, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 export function Signin() {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(""); // Define error message state
-  const [loading, setLoading] = useState(false); // Define loading state
-
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,21 +21,21 @@ export function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true when form submission starts
+    // Set loading to true when form submission starts
+
     try {
-      const res = await axios.post('/api/auth/signin', formData); // Axios POST request
+      dispatch(signInStart());
+      const res = await axios.post("/api/auth/signin", formData);
       const data = res.data;
 
       if (data.success === false) {
-        return setErrorMessage(data.message); // Set error message if signup failed
-      } 
-      setLoading(false);
-      navigate('/');
+        dispatch(signInFailure(data.message)); // Set error message if signup failed
+      } else {
+        dispatch(signInSuccess(data));
+        navigate("/");
+      }
     } catch (error) {
-      console.error("Signup Failed:", error.response?.data || error.message);
-      setErrorMessage(error.response?.data?.message || "An unexpected error occurred.");
-    } finally {
-      setLoading(false); // Set loading to false after submission is complete
+      dispatch(signInFailure(error.message));
     }
   };
 
