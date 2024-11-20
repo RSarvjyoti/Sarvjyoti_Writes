@@ -2,13 +2,21 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
-import {Provider} from 'react-redux'
+import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
+// Create the persistor
+const persistor = persistStore(store);
 
 createRoot(document.getElementById("root")).render(
-    <BrowserRouter>
-    <Provider store={store}>
-    <App />
-    </Provider>
-    </BrowserRouter>
+  <Provider store={store}>
+    {/* Pass the persistor to PersistGate */}
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>
 );
