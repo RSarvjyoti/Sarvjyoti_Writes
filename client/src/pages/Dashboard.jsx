@@ -22,7 +22,7 @@ export function Dashboard() {
         <DashSidebar />
       </div>
       {/* Profile */}
-      <div className="">
+      <div className="w-full">
         {tab === 'profile' && <DashProfile />}
       </div>
     </div>
