@@ -22,23 +22,24 @@ export function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Set loading to true when form submission starts
-
+  
     try {
       dispatch(signInStart());
+      
       const res = await axios.post("/api/auth/signin", formData);
       const data = res.data;
-
-      if (data.success === false) {
-        dispatch(signInFailure(data.message)); // Set error message if signup failed
+  
+      if (!data || data.success === false) {
+        dispatch(signInFailure(data?.message || "Signin failed")); 
       } else {
         dispatch(signInSuccess(data));
         navigate("/");
       }
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      dispatch(signInFailure(error.response?.data?.message || error.message)); 
     }
   };
+  
 
   return (
     <div className="min-h-screen mt-20">
