@@ -7,4 +7,4 @@ const OnlyAdminPrivateRoute = () => {
   return currentUser.isAdmin ? <Outlet /> : <Navigate to='/sign-in' />
 }
 
-export default OnlyAdminPrivateRoute
+export default OnlyAdminPrivateRoute;
