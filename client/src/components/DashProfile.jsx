@@ -12,6 +12,7 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signoutSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
@@ -112,8 +113,16 @@ const DashProfile = () => {
       dispatch(deleteUserFailure(error.response?.data?.message || error.message));
     }
   };
-  
 
+  const handleSignout = async () => {
+    try {
+      const res = await axios.post('/api/user/signout');
+      dispatch(signoutSuccess());
+    } catch (error) {
+      console.log(error.response?.data?.message || error.message);
+    }
+  };
+  
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
@@ -164,7 +173,7 @@ const DashProfile = () => {
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span className="cursor-pointer" onClick={handleSignout}>Sign Out</span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
