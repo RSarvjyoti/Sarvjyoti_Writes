@@ -10,7 +10,7 @@ const DashUsers = () => {
   const [users, setUsers] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
-    const [userIdToDelete, setUserIdToDelete] = useState('');
+  const [userIdToDelete, setUserIdToDelete] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -51,11 +51,12 @@ const DashUsers = () => {
     const handleDeleteUser = async () => {
       setShowModal(false);
       try {
-        const res = await axios.delete(`/api/user/deleteuser/${userIdToDelete}/${currentUser._id}`);
+        const res = await axios.delete(`/api/user/delete/${userIdToDelete}`);
         if (res.status === 200) {
-          setUserPost((prev) =>
-            prev.filter(({_id}) => _id !== postIdToDelete)
+          setUsers((prev) =>
+            prev.filter(({_id}) => _id !== userIdToDelete)
           );
+          showModal(false);
         } else {
           console.log(res.data.message);
         }
