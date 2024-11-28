@@ -12,7 +12,7 @@ export default function CallToAction() {
                 Checkout these resources.
             </p>
             <Button gradientDuoTone='purpleToPink' className='rounded-tl-xl rounded-bl-none'>
-                <a href="https://github.com/RSarvjyoti" target='_blank' rel='noopener noreferrer'>
+                <a href="https://medium.com/@sarvjyoti055" target='_blank' rel='noopener noreferrer'>
                     Go To
                 </a>
             </Button>
