@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
-import axios from 'axios';
+import axios from "axios";
+import { useEffect } from "react";
+import Comment from "./Comment";
 
 const CommentSection = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
@@ -16,20 +18,32 @@ const CommentSection = ({ postId }) => {
       return;
     }
     try {
-      const res = await axios.post('/api/comment/create', {
+      const res = await axios.post("/api/comment/create", {
         content: comment,
         postId,
         userId: currentUser._id,
       });
       const data = res.data;
-      setComment('');
+      setComment("");
       setCommentError(null);
       setComments([data, ...comments]);
     } catch (error) {
       setCommentError(error.response?.data?.message || error.message);
     }
   };
-  
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await axios.get(`/api/comment/getcomment/${postId}`);
+        setComments(res.data);
+        console.log(res.data);
+      } catch (error) {
+        console.log(error.response?.data?.message || error.message);
+      }
+    };
+    getComments();
+  }, [postId]);
 
   return (
     <div className="max-w-2xl object-cover row-full">
@@ -57,7 +71,10 @@ const CommentSection = ({ postId }) => {
         </div>
       )}
       {currentUser && (
-        <form onSubmit={handleSubmit} className="border border-teal-500 rounded-md p-3">
+        <form
+          onSubmit={handleSubmit}
+          className="border border-teal-500 rounded-md p-3"
+        >
           <Textarea
             placeholder="Add a comment..."
             rows="3"
@@ -77,6 +94,26 @@ const CommentSection = ({ postId }) => {
             </Alert>
           )}
         </form>
+      )}
+
+      {comments.length === 0 ? (
+        <p className="text-sm my-5">No comments yet!</p>
+      ) : (
+        <>
+          <div className="text-sm my-5 flex items-center gap-1">
+            <p>Comments</p>
+            <div className="border border-gray-400 py-1 px-2 rounded-sm">
+              <p>{comments.length}</p>
+            </div>
+          </div>
+          {comments.map((comment) => (
+            <Comment
+              key={comment._id}
+              comment={comment}
+              
+            />
+          ))}
+        </>
       )}
     </div>
   );
