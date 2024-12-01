@@ -6,6 +6,7 @@ import authRoute from './routes/auth.route.js'
 import postRoute from './routes/post.route.js'
 import cookieParser from 'cookie-parser';
 import commentRoute from './routes/comment.route.js';
+import path from 'path';
 
 config();
 const app = express();
@@ -19,6 +20,19 @@ app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
 app.use('/api/comment', commentRoute);
+
+// ******** Deployment *******
+const __dirname1 = path.resolve();
+if(process.env.NODE_ENV === "productions") {
+    app.use(express.static(path.join(__dirname1, '/client/dist')))
+    app.get('*',(req, res) => {
+        res.sendFile(path.resolve(__dirname1, "client", "dist", "index.html"));
+    } )
+}else {
+    app.get("/", () => {
+        res.send("API is runnig successfully");
+    })    
+}
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
