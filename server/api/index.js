@@ -7,6 +7,7 @@ import postRoute from './routes/post.route.js'
 import cookieParser from 'cookie-parser';
 import commentRoute from './routes/comment.route.js';
 import path from 'path';
+import cors from 'cors';
 
 config();
 const app = express();
@@ -22,17 +23,12 @@ app.use('/api/post', postRoute);
 app.use('/api/comment', commentRoute);
 
 // ******** Deployment *******
-const __dirname1 = path.resolve();
-if(process.env.NODE_ENV === "productions") {
-    app.use(express.static(path.join(__dirname1, '/client/dist')))
-    app.get('*',(req, res) => {
-        res.sendFile(path.resolve(__dirname1, "client", "dist", "index.html"));
-    } )
-}else {
-    app.get("/", () => {
-        res.send("API is runnig successfully");
-    })    
-}
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+
+app.use(cors({
+    origin: FRONTEND_URL,
+    credentials: true // Include cookies in requests
+}));
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
