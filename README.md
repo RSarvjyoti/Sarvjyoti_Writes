@@ -10,6 +10,24 @@
 ## Live link : 
 
 ## Directory Structure : 
+- client / src /
+  - components /
+    
+    ![1](https://github.com/user-attachments/assets/e938b86c-7b03-4fe0-ad70-69879341b50c)
+    
+  - pages /
+    
+    ![2](https://github.com/user-attachments/assets/22f33791-2bc5-43bd-8127-6f968dfbfe88)
+    
+  - redux /
+    
+    ![3](https://github.com/user-attachments/assets/bb80612b-ad32-45f2-a754-fb6df94247b4)
+
+- server / api /
+  
+  ![4](https://github.com/user-attachments/assets/945fd024-114d-45b0-a13e-bc299575cafa)
+
+  ![5](https://github.com/user-attachments/assets/79d4087a-bdc5-4040-bf03-0d6d674d7f97)
 
 ## Video Walkthrough of the project : 
 
