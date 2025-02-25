@@ -47,6 +47,7 @@
     - Post, Read, Delete, Edit (All type users)
 - Search Post
 - Admin Dashboard
+- All pages are responsive
 
 ### Installation & Getting started
 - git clone (https://github.com/RSarvjyoti/Sarvjyoti_Writes)
@@ -65,6 +66,10 @@
    - Express.js
 - Database
   - Mongodb (Mongo Atlas)
+## Deployed Platform
+- Render (Backend)
+- Vercal (Frontend)
+- Database (Mongodb Atlas)
 
 ## SS
 ![signup](https://github.com/user-attachments/assets/5f9da01e-0f76-4902-b1ad-2c9ef222e05d)
