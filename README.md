@@ -8,6 +8,8 @@
 - This project is my individual project that I build during 20 days. This is blog application where admin can create a post, users only can read the post, comments, like and edit their own comments.
 
 ## Live link : 
+- Server API :  https://sarvjyoti-writes-4.onrender.com
+- Client : https://sarvjyoti-writes-l4iz.vercel.app/
 
 ## Directory Structure : 
 - client / src /
