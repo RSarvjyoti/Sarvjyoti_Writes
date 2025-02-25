@@ -22,13 +22,9 @@ app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
 app.use('/api/comment', commentRoute);
 
-// ******** Deployment *******
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
-app.use(cors({
-    origin: FRONTEND_URL,
-    credentials: true // Include cookies in requests
-}));
+
+app.use(cors());
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
