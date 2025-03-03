@@ -14,7 +14,17 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(`/api/user/${comment.userId}`);
+        const token = localStorage.getItem("access_token"); // Get token from localStorage
+  
+        const res = await axios.get(
+          `http://localhost:5000/api/user/${comment.userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Attach token
+            },
+          }
+        );
+  
         setUser(res.data);
         console.log(res.data);
       } catch (error) {
@@ -23,17 +33,26 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
     };
     getUser();
   }, [comment]);
-
+  
   const handleEdit = () => {
     setIsEditing(true);
     setEditedContent(comment.content);
   };
-
+  
   const handleSave = async () => {
     try {
-      const res = await axios.put(`/api/comment/editcomment/${comment._id}`, {
-        content: editedContent,
-      });
+      const token = localStorage.getItem("access_token"); 
+  
+      const res = await axios.put(
+        `http://localhost:5000/api/comment/editcomment/${comment._id}`,
+        { content: editedContent },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+  
       if (res.status === 200) {
         setIsEditing(false);
         onEdit(comment, editedContent);
@@ -42,6 +61,7 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
       console.log(error.message);
     }
   };
+  
   
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm">

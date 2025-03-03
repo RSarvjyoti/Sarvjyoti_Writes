@@ -8,6 +8,7 @@ import {
 } from "react-icons/hi";
 import { Button, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
+import React from "react";
 
 const DashboardComponent = () => {
   const [users, setUsers] = useState([]);
@@ -20,10 +21,20 @@ const DashboardComponent = () => {
   const [lastMonthPosts, setLastMonthPosts] = useState(0);
   const [lastMonthComments, setLastMonthComments] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/user/getusers?limit=5");
+        const token = localStorage.getItem("access_token");
+  
+        const res = await fetch("http://localhost:5000/api/user/getusers?limit=5", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach token
+            "Content-Type": "application/json",
+          },
+        });
+  
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);
@@ -34,9 +45,19 @@ const DashboardComponent = () => {
         console.log(error.message);
       }
     };
+  
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getposts?limit=5");
+        const token = localStorage.getItem("access_token");
+  
+        const res = await fetch("http://localhost:5000/api/post/getposts?limit=5", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+  
         const data = await res.json();
         if (res.ok) {
           setPosts(data.posts);
@@ -47,9 +68,19 @@ const DashboardComponent = () => {
         console.log(error.message);
       }
     };
+  
     const fetchComments = async () => {
       try {
-        const res = await fetch("/api/comment/getcomments?limit=5");
+        const token = localStorage.getItem("access_token");
+  
+        const res = await fetch("http://localhost:5000/api/comment/getcomments?limit=5", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+  
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);
@@ -60,12 +91,14 @@ const DashboardComponent = () => {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
+  
+    if (currentUser?.isAdmin) {
       fetchUsers();
       fetchPosts();
       fetchComments();
     }
-  }, [currentUser]);
+  }, [currentUser]);  
+
   return (
     <div className="p-3 md:mx-auto">
       <div className="flex-wrap flex gap-4 justify-center">

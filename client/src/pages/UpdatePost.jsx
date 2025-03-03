@@ -6,7 +6,6 @@ import axios from "axios";
 import {useNavigate, useParams} from 'react-router-dom';
 import {useSelector} from 'react-redux'
 
-// Register any custom modules/plugins for Quill here if needed
 Quill.register("modules/customModule", {});
 
 const UpdatePost = () => {
@@ -21,8 +20,18 @@ const UpdatePost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`/api/post/getposts?postId=${postId}`);
-        const data = await res.data
+        const token = localStorage.getItem("access_token");
+  
+        const res = await axios.get(
+          `http://localhost:5000/api/post/getposts?postId=${postId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, 
+            },
+          }
+        );
+  
+        const data = await res.data;
         setPublishError(null);
         setFormData(data.posts[0]);
       } catch (error) {
@@ -34,21 +43,30 @@ const UpdatePost = () => {
     fetchPost();
   }, [postId]);
   
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const content = quillRef.current?.getEditor().root.innerHTML;
       const postData = { ...formData, content };
-
-      const res = await axios.put(`/api/post/updatepost/${formData._id}/${currentUser._id}`, postData);
-
+  
+      const token = localStorage.getItem("access_token");
+  
+      const res = await axios.put(
+        `http://localhost:5000/api/post/updatepost/${formData._id}/${currentUser._id}`,
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+  
       setPublishError(null);
       navigate(`/post/${res.data.slug}`);
     } catch (error) {
       setPublishError(error.response?.data?.message || "Something went wrong");
     }
-  };
+  };  
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen ">

@@ -19,30 +19,49 @@ const PostPage = () => {
       setLoading(true);
       setError(false);
       try {
-        const res = await axios.get(`/api/post/getposts?slug=${postSlug}`);
-        const data = res.data;
-        setPost(data.posts[0]);
+        // Retrieve access token from localStorage
+        const token = localStorage.getItem("access_token");
+  
+        const res = await axios.get(
+          `http://localhost:5000/api/post/getposts?slug=${postSlug}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Send token in Authorization header
+            },
+          }
+        );
+  
+        setPost(res.data.posts[0]);
         setLoading(false);
       } catch (error) {
         setError(true);
         setLoading(false);
-        return;
       }
     };
     fetchPost();
   }, [postSlug]);
-
+  
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        const res = await axios.get(`/api/post/getposts?limit=3`);
+        const token = localStorage.getItem("access_token");
+  
+        const res = await axios.get(
+          `http://localhost:5000/api/post/getposts?limit=3`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, 
+            },
+          }
+        );
+  
         setRecentPosts(res.data.posts);
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchRecentPosts();
-  }, []);
+  }, []);  
   
 
   if (loading)

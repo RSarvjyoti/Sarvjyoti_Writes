@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import React from "react";
+
 
 const DashComments = () => {
     const { currentUser } = useSelector((state) => state.user);
@@ -10,10 +12,16 @@ const DashComments = () => {
     const [showMore, setShowMore] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [commentIdToDelete, setCommentIdToDelete] = useState('');
+
     useEffect(() => {
       const fetchComments = async () => {
         try {
-          const res = await fetch(`/api/comment/getcomments`);
+          const token = localStorage.getItem("access_token");
+          const res = await fetch(`http://localhost:5000/api/comment/getcomments`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           const data = await res.json();
           if (res.ok) {
             setComments(data.comments);
@@ -29,12 +37,19 @@ const DashComments = () => {
         fetchComments();
       }
     }, [currentUser._id]);
+    
   
     const handleShowMore = async () => {
       const startIndex = comments.length;
       try {
+        const token = localStorage.getItem("access_token");
         const res = await fetch(
-          `/api/comment/getcomments?startIndex=${startIndex}`
+          `http://localhost:5000/api/comment/getcomments?startIndex=${startIndex}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         const data = await res.json();
         if (res.ok) {
@@ -47,14 +62,18 @@ const DashComments = () => {
         console.log(error.message);
       }
     };
-  
+    
     const handleDeleteComment = async () => {
       setShowModal(false);
       try {
+        const token = localStorage.getItem("access_token");
         const res = await fetch(
-          `/api/comment/deleteComment/${commentIdToDelete}`,
+          `http://localhost:5000/api/comment/deleteComment/${commentIdToDelete}`,
           {
-            method: 'DELETE',
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         const data = await res.json();
@@ -69,7 +88,7 @@ const DashComments = () => {
       } catch (error) {
         console.log(error.message);
       }
-    };
+    };    
   
     return (
       <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>

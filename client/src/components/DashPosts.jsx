@@ -11,56 +11,78 @@ const DashPosts = () => {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
-  
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        const token = localStorage.getItem("access_token");
         const res = await axios.get(
-          `/api/post/getposts?userId=${currentUser._id}`
+          `http://localhost:5000/api/post/getposts?userId=${currentUser._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        const data = await res.data;
+        const data = res.data;
         setUserPost(data.posts);
-        if(data.posts.length < 9) {
+        if (data.posts.length < 9) {
           setShowMore(false);
         }
       } catch (error) {
         console.log(error);
       }
     };
+  
     if (currentUser.isAdmin) {
       fetchPosts();
     }
   }, [currentUser._id]);
+  
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
-    try{
-      const res = await axios.get(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`);
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.get(
+        `http://localhost:5000/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = res.data;
-      setUserPost((prev) => [...prev, ...data.posts])
-      if(data.posts.length < 9) {
+      setUserPost((prev) => [...prev, ...data.posts]);
+      if (data.posts.length < 9) {
         setShowMore(false);
       }
-    }catch(error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };  
 
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
-      const res = await axios.delete(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`);
+      const token = localStorage.getItem("access_token");
+      const res = await axios.delete(
+        `http://localhost:5000/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (res.status === 200) {
-        setUserPost((prev) =>
-          prev.filter(({_id}) => _id !== postIdToDelete)
-        );
+        setUserPost((prev) => prev.filter(({ _id }) => _id !== postIdToDelete));
       } else {
         console.log(res.data.message);
       }
     } catch (error) {
       console.log(error.response?.data?.message || error.message);
     }
-  };
+  };  
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>

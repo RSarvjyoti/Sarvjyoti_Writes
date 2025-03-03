@@ -1,5 +1,7 @@
 import { Button } from 'flowbite-react';
 import image from '../assets/banner.png';
+import React from "react";
+
 
 export default function CallToAction() {
   return (

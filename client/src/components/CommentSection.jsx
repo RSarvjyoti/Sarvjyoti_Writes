@@ -22,11 +22,22 @@ const CommentSection = ({ postId }) => {
       return;
     }
     try {
-      const res = await axios.post("/api/comment/create", {
-        content: comment,
-        postId,
-        userId: currentUser._id,
-      });
+      const token = localStorage.getItem("access_token"); 
+  
+      const res = await axios.post(
+        "http://localhost:5000/api/comment/create",
+        {
+          content: comment,
+          postId,
+          userId: currentUser._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+  
       const data = res.data;
       setComment("");
       setCommentError(null);
@@ -35,11 +46,21 @@ const CommentSection = ({ postId }) => {
       setCommentError(error.response?.data?.message || error.message);
     }
   };
-
+  
   useEffect(() => {
     const getComments = async () => {
       try {
-        const res = await axios.get(`/api/comment/getcomment/${postId}`);
+        const token = localStorage.getItem("access_token");
+  
+        const res = await axios.get(
+          `http://localhost:5000/api/comment/getcomment/${postId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
         setComments(res.data);
         console.log(res.data);
       } catch (error) {
@@ -48,14 +69,25 @@ const CommentSection = ({ postId }) => {
     };
     getComments();
   }, [postId]);
-
+  
   const handleLike = async (commentId) => {
     try {
       if (!currentUser) {
         navigate("/sign-in");
         return;
       }
-      const res = await axios.put(`/api/comment/likecomment/${commentId}`);
+      const token = localStorage.getItem("access_token");
+  
+      const res = await axios.put(
+        `http://localhost:5000/api/comment/likecomment/${commentId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
       if (res.status === 200) {
         const data = res.data;
         setComments(
@@ -74,15 +106,33 @@ const CommentSection = ({ postId }) => {
       console.log(error.message);
     }
   };
-
+  
   const handleEdit = async (comment, editedContent) => {
-    setComments(
-      comments.map((c) =>
-        c._id === comment._id ? { ...c, content: editedContent } : c
-      )
-    );
+    try {
+      const token = localStorage.getItem("access_token");
+  
+      const res = await axios.put(
+        `http://localhost:5000/api/comment/editcomment/${comment._id}`,
+        { content: editedContent },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (res.status === 200) {
+        setComments(
+          comments.map((c) =>
+            c._id === comment._id ? { ...c, content: editedContent } : c
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
-
+  
   const handleDelete = async (commentId) => {
     setShowModal(false);
     try {
@@ -90,7 +140,17 @@ const CommentSection = ({ postId }) => {
         navigate("/sign-in");
         return;
       }
-      const res = await axios.delete(`/api/comment/deletecomment/${commentId}`);
+      const token = localStorage.getItem("access_token");
+  
+      const res = await axios.delete(
+        `http://localhost:5000/api/comment/deletecomment/${commentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
       if (res.status === 200) {
         setComments(comments.filter((comment) => comment._id !== commentId));
       }

@@ -28,15 +28,25 @@ export const MyHeader = () => {
     }
   }, [location.search]);
 
+
   const handleSignout = async () => {
     try {
-      const res = await axios.post("/api/user/signout");
+      const token = localStorage.getItem("access_token"); 
+      const res = await axios.post(
+        "http://localhost:5000/api/user/signout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
       dispatch(signoutSuccess());
     } catch (error) {
       console.log(error.response?.data?.message || error.message);
     }
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
@@ -44,7 +54,7 @@ export const MyHeader = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
-
+  
   return (
     <Navbar className="border-b-2">
       <Link

@@ -21,21 +21,32 @@ const DashSidebar = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const urlParms = new URLSearchParams(locaton.search);
-    const tabFromUrl = urlParms.get("tab");
+    const urlParams = new URLSearchParams(location.search); // Fixed "locaton" to "location"
+    const tabFromUrl = urlParams.get("tab");
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
-  }, [locaton.search]);
+  }, [location.search]);
 
   const handleSignout = async () => {
     try {
-      const res = await axios.post("/api/user/signout");
+      const token = localStorage.getItem("access_token");
+      const res = await axios.post(
+        "http://localhost:5000/api/user/signout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       dispatch(signoutSuccess());
+      localStorage.removeItem("token"); 
     } catch (error) {
       console.log(error.response?.data?.message || error.message);
     }
   };
+  
 
   return (
     <Sidebar className="w-full md:w-56">

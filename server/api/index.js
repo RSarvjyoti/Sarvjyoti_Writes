@@ -16,6 +16,7 @@ const DB_URL = process.env.MONGO_URL
 // app routes
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
@@ -23,7 +24,7 @@ app.use('/api/comment', commentRoute);
 
 // ******** Deployment *******
 
-app.use(cors());
+
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
@@ -35,6 +36,8 @@ app.use((err, req, res, next) => {
     });
 });
 
+
+app.get("/", (req, res)=> res.send("ok ok"))
 
 app.listen(PORT, async () => {
     await connectDb(DB_URL)

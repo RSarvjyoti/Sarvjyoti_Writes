@@ -15,28 +15,40 @@ const DashUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`/api/user/getusers`);
-        const data = await res.data;
+        const token = localStorage.getItem("access_token"); // Get token from localStorage
+        const res = await axios.get(`http://localhost:5000/api/user/getusers`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = res.data;
         console.log(data);
-
+  
         setUsers(data.users);
         if (data.users.length < 9) {
           setShowMore(false);
         }
       } catch (error) {
-        console.log(error);
+        console.log(error.response?.data?.message || error.message);
       }
     };
+    
     if (currentUser.isAdmin) {
       fetchUsers();
     }
   }, [currentUser._id]);
-
+  
   const handleShowMore = async () => {
     const startIndex = users.length;
     try {
+      const token = localStorage.getItem("access_token");
       const res = await axios.get(
-        `/api/user/getusers?startIndex=${startIndex}`
+        `/api/user/getusers?startIndex=${startIndex}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const data = res.data;
       setUsers((prev) => [...prev, ...data.users]);
@@ -44,26 +56,33 @@ const DashUsers = () => {
         setShowMore(false);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response?.data?.message || error.message);
     }
   };
-
-    const handleDeleteUser = async () => {
-      setShowModal(false);
-      try {
-        const res = await axios.delete(`/api/user/delete/${userIdToDelete}`);
-        if (res.status === 200) {
-          setUsers((prev) =>
-            prev.filter(({_id}) => _id !== userIdToDelete)
-          );
-          showModal(false);
-        } else {
-          console.log(res.data.message);
+  
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.delete(
+        `http://localhost:5000/api/user/delete/${userIdToDelete}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        console.log(error.response?.data?.message || error.message);
+      );
+  
+      if (res.status === 200) {
+        setUsers((prev) => prev.filter(({ _id }) => _id !== userIdToDelete));
+        setShowModal(false);
+      } else {
+        console.log(res.data.message);
       }
-    };
+    } catch (error) {
+      console.log(error.response?.data?.message || error.message);
+    }
+  };  
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">

@@ -79,22 +79,28 @@ const DashProfile = () => {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
-
+  
     if (Object.keys(formData).length === 0) {
       setUpdateUserError("No changes made");
       return;
     }
+  
     try {
       dispatch(updateStart());
+  
+      const token = localStorage.getItem("access_token"); // Get token from localStorage
+  
       const res = await axios.put(
-        `/api/user/update/${currentUser._id}`,
+        `http://localhost:5000/api/user/update/${currentUser._id}`,
         formData,
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
+  
       dispatch(updateSuccess(res.data));
       setUpdateUserSuccess("User's profile updated successfully");
     } catch (error) {
@@ -102,13 +108,24 @@ const DashProfile = () => {
       dispatch(updateFailure(errorMessage));
       setUpdateUserError(errorMessage);
     }
-  };
+  };  
 
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await axios.delete(`/api/user/delete/${currentUser._id}`);
+  
+      const token = localStorage.getItem("access_token"); // Get token from localStorage
+  
+      const res = await axios.delete(
+        `http://localhost:5000/api/user/delete/${currentUser._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+  
       dispatch(deleteUserSuccess(res.data));
     } catch (error) {
       dispatch(
@@ -116,15 +133,29 @@ const DashProfile = () => {
       );
     }
   };
+  
 
   const handleSignout = async () => {
     try {
-      const res = await axios.post("/api/user/signout");
+      const token = localStorage.getItem("access_token"); // Get token from localStorage
+  
+      await axios.post(
+        "http://localhost:5000/api/user/signout",
+        {}, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      localStorage.removeItem("access_token"); 
       dispatch(signoutSuccess());
     } catch (error) {
       console.log(error.response?.data?.message || error.message);
     }
   };
+  
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">

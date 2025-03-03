@@ -5,7 +5,6 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
 
-// Register any custom modules/plugins for Quill here if needed
 Quill.register("modules/customModule", {});
 
 const CreatePost = () => {
@@ -20,15 +19,26 @@ const CreatePost = () => {
     try {
       const content = quillRef.current?.getEditor().root.innerHTML;
       const postData = { ...formData, content };
-
-      const res = await axios.post("/api/post/create", postData);
-
+  
+      const token = localStorage.getItem("access_token");
+  
+      const res = await axios.post(
+        "http://localhost:5000/api/post/create",
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+  
       setPublishError(null);
       navigate(`/post/${res.data.slug}`);
     } catch (error) {
       setPublishError(error.response?.data?.message || "Something went wrong");
     }
   };
+  
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen ">

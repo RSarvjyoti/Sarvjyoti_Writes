@@ -6,8 +6,8 @@ import OAuth from "../components/OAuth";
 
 export function Signup() {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(""); // Define error message state
-  const [loading, setLoading] = useState(false); // Define loading state
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,19 +19,21 @@ export function Signup() {
     e.preventDefault();
     setLoading(true); // Set loading to true when form submission starts
     try {
-      const res = await axios.post('/api/auth/signup', formData); // Axios POST request
+      const res = await axios.post('http://localhost:5000/api/auth/signup', formData); // Axios POST request
       const data = res.data;
+      console.log(res);
 
       if (data.success === false) {
-        return setErrorMessage(data.message); // Set error message if signup failed
+        return setErrorMessage(data.message); 
       } 
       setLoading(false);
       navigate('/sign-in');
     } catch (error) {
+      console.log(error)
       console.error("Signup Failed:", error.response?.data || error.message);
       setErrorMessage(error.response?.data?.message || "An unexpected error occurred.");
     } finally {
-      setLoading(false); // Set loading to false after submission is complete
+      setLoading(false);
     }
   };
 
