@@ -6,7 +6,6 @@ import authRoute from './routes/auth.route.js'
 import postRoute from './routes/post.route.js'
 import cookieParser from 'cookie-parser';
 import commentRoute from './routes/comment.route.js';
-import path from 'path';
 import cors from 'cors';
 
 config();
@@ -22,7 +21,7 @@ app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
 app.use('/api/comment', commentRoute);
 
-
+// ******** Deployment *******
 
 app.use(cors());
 

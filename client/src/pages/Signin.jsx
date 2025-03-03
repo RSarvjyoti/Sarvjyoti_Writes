@@ -22,24 +22,26 @@ export function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       dispatch(signInStart());
-      
+
       const res = await axios.post("/api/auth/signin", formData);
-      const data = res.data;
-  
-      if (!data || data.success === false) {
-        dispatch(signInFailure(data?.message || "Signin failed")); 
+      const { token, user } = res.data;
+
+      if (!token || !user) {
+        dispatch(signInFailure("Signin failed"));
       } else {
-        dispatch(signInSuccess(data));
+        // Store token in localStorage
+        localStorage.setItem("access_token", token);
+        
+        dispatch(signInSuccess(user)); // Store user info in Redux
         navigate("/");
       }
     } catch (error) {
-      dispatch(signInFailure(error.response?.data?.message || error.message)); 
+      dispatch(signInFailure(error.response?.data?.message || error.message));
     }
   };
-  
 
   return (
     <div className="min-h-screen mt-20">
@@ -84,14 +86,14 @@ export function Signin() {
             <Button
               gradientDuoTone="purpleToPink"
               type="submit"
-              disabled={loading} // Disable button while loading
+              disabled={loading}
             >
-              {loading ? "Signing In..." : "Sign In"} {/* Show loading text */}
+              {loading ? "Signing In..." : "Sign In"}
             </Button>
             <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
-            <span>Dont Have an account?</span>
+            <span>Don't have an account?</span>
             <Link to="/sign-up" className="text-blue-500">
               Sign Up
             </Link>
