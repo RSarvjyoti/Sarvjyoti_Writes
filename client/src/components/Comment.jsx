@@ -14,10 +14,10 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const token = localStorage.getItem("access_token"); // Get token from localStorage
+        const token = localStorage.getItem("access_token"); 
   
         const res = await axios.get(
-          `http://localhost:5000/api/user/${comment.userId}`,
+          `https://sarvjyoti-writes-4.onrender.com/api/user/${comment.userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Attach token
@@ -44,7 +44,7 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
       const token = localStorage.getItem("access_token"); 
   
       const res = await axios.put(
-        `http://localhost:5000/api/comment/editcomment/${comment._id}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/comment/editcomment/${comment._id}`,
         { content: editedContent },
         {
           headers: {

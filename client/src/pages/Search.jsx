@@ -39,7 +39,7 @@ const Search = () => {
         const token = localStorage.getItem("access_token");
         const searchQuery = urlParams.toString();
 
-        const res = await axios.get(`http://localhost:5000/api/post/getposts?${searchQuery}`, {
+        const res = await axios.get(`https://sarvjyoti-writes-4.onrender.com/api/post/getposts?${searchQuery}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ const Search = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const res = await axios.get(`http://localhost:5000/api/post/getposts?${searchQuery}`, {
+      const res = await axios.get(`https://sarvjyoti-writes-4.onrender.com/api/post/getposts?${searchQuery}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

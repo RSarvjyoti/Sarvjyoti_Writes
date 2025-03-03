@@ -23,7 +23,7 @@ const CreatePost = () => {
       const token = localStorage.getItem("access_token");
   
       const res = await axios.post(
-        "http://localhost:5000/api/post/create",
+        "https://sarvjyoti-writes-4.onrender.com/api/post/create",
         postData,
         {
           headers: {

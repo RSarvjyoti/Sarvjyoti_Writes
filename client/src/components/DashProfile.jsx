@@ -91,7 +91,7 @@ const DashProfile = () => {
       const token = localStorage.getItem("access_token"); // Get token from localStorage
   
       const res = await axios.put(
-        `http://localhost:5000/api/user/update/${currentUser._id}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/user/update/${currentUser._id}`,
         formData,
         {
           headers: {
@@ -118,7 +118,7 @@ const DashProfile = () => {
       const token = localStorage.getItem("access_token"); // Get token from localStorage
   
       const res = await axios.delete(
-        `http://localhost:5000/api/user/delete/${currentUser._id}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/user/delete/${currentUser._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, 
@@ -140,7 +140,7 @@ const DashProfile = () => {
       const token = localStorage.getItem("access_token"); // Get token from localStorage
   
       await axios.post(
-        "http://localhost:5000/api/user/signout",
+        "https://sarvjyoti-writes-4.onrender.com/api/user/signout",
         {}, 
         {
           headers: {

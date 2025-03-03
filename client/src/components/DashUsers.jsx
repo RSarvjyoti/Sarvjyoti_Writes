@@ -15,8 +15,8 @@ const DashUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = localStorage.getItem("access_token"); // Get token from localStorage
-        const res = await axios.get(`http://localhost:5000/api/user/getusers`, {
+        const token = localStorage.getItem("access_token"); 
+        const res = await axios.get(`https://sarvjyoti-writes-4.onrender.com/api/user/getusers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -65,7 +65,7 @@ const DashUsers = () => {
     try {
       const token = localStorage.getItem("access_token");
       const res = await axios.delete(
-        `http://localhost:5000/api/user/delete/${userIdToDelete}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/user/delete/${userIdToDelete}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

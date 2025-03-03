@@ -33,7 +33,7 @@ export const MyHeader = () => {
     try {
       const token = localStorage.getItem("access_token"); 
       const res = await axios.post(
-        "http://localhost:5000/api/user/signout",
+        "https://sarvjyoti-writes-4.onrender.com/api/user/signout",
         {},
         {
           headers: {

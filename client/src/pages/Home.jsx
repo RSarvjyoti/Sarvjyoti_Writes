@@ -13,7 +13,7 @@ export function Home() {
       try {
         const token = localStorage.getItem("access_token");
   
-        const res = await axios.get("http://localhost:5000/api/post/getPosts", {
+        const res = await axios.get("https://sarvjyoti-writes-4.onrender.com/api/post/getPosts", {
           headers: {
             Authorization: `Bearer ${token}`, 
           },

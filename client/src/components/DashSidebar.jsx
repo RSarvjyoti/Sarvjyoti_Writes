@@ -21,7 +21,7 @@ const DashSidebar = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search); // Fixed "locaton" to "location"
+    const urlParams = new URLSearchParams(location.search); 
     const tabFromUrl = urlParams.get("tab");
     if (tabFromUrl) {
       setTab(tabFromUrl);
@@ -32,7 +32,7 @@ const DashSidebar = () => {
     try {
       const token = localStorage.getItem("access_token");
       const res = await axios.post(
-        "http://localhost:5000/api/user/signout",
+        "https://sarvjyoti-writes-4.onrender.com/api/user/signout",
         {},
         {
           headers: {

@@ -17,7 +17,7 @@ const DashComments = () => {
       const fetchComments = async () => {
         try {
           const token = localStorage.getItem("access_token");
-          const res = await fetch(`http://localhost:5000/api/comment/getcomments`, {
+          const res = await fetch(`https://sarvjyoti-writes-4.onrender.com/api/comment/getcomments`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -44,7 +44,7 @@ const DashComments = () => {
       try {
         const token = localStorage.getItem("access_token");
         const res = await fetch(
-          `http://localhost:5000/api/comment/getcomments?startIndex=${startIndex}`,
+          `https://sarvjyoti-writes-4.onrender.com/api/comment/getcomments?startIndex=${startIndex}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ const DashComments = () => {
       try {
         const token = localStorage.getItem("access_token");
         const res = await fetch(
-          `http://localhost:5000/api/comment/deleteComment/${commentIdToDelete}`,
+          `https://sarvjyoti-writes-4.onrender.com/api/comment/deleteComment/${commentIdToDelete}`,
           {
             method: "DELETE",
             headers: {

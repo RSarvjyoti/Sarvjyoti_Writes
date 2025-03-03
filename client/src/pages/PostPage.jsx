@@ -23,7 +23,7 @@ const PostPage = () => {
         const token = localStorage.getItem("access_token");
   
         const res = await axios.get(
-          `http://localhost:5000/api/post/getposts?slug=${postSlug}`,
+          `https://sarvjyoti-writes-4.onrender.com/api/post/getposts?slug=${postSlug}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -47,7 +47,7 @@ const PostPage = () => {
         const token = localStorage.getItem("access_token");
   
         const res = await axios.get(
-          `http://localhost:5000/api/post/getposts?limit=3`,
+          `https://sarvjyoti-writes-4.onrender.com/api/post/getposts?limit=3`,
           {
             headers: {
               Authorization: `Bearer ${token}`, 

@@ -19,7 +19,7 @@ export function Signup() {
     e.preventDefault();
     setLoading(true); // Set loading to true when form submission starts
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', formData); // Axios POST request
+      const res = await axios.post('https://sarvjyoti-writes-4.onrender.com/api/auth/signup', formData); // Axios POST request
       const data = res.data;
       console.log(res);
 

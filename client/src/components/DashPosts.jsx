@@ -17,7 +17,7 @@ const DashPosts = () => {
       try {
         const token = localStorage.getItem("access_token");
         const res = await axios.get(
-          `http://localhost:5000/api/post/getposts?userId=${currentUser._id}`,
+          `https://sarvjyoti-writes-4.onrender.com/api/post/getposts?userId=${currentUser._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const DashPosts = () => {
     try {
       const token = localStorage.getItem("access_token");
       const res = await axios.get(
-        `http://localhost:5000/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const DashPosts = () => {
     try {
       const token = localStorage.getItem("access_token");
       const res = await axios.delete(
-        `http://localhost:5000/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

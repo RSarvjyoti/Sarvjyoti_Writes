@@ -25,7 +25,7 @@ const CommentSection = ({ postId }) => {
       const token = localStorage.getItem("access_token"); 
   
       const res = await axios.post(
-        "http://localhost:5000/api/comment/create",
+        "https://sarvjyoti-writes-4.onrender.com/api/comment/create",
         {
           content: comment,
           postId,
@@ -53,7 +53,7 @@ const CommentSection = ({ postId }) => {
         const token = localStorage.getItem("access_token");
   
         const res = await axios.get(
-          `http://localhost:5000/api/comment/getcomment/${postId}`,
+          `https://sarvjyoti-writes-4.onrender.com/api/comment/getcomment/${postId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -79,7 +79,7 @@ const CommentSection = ({ postId }) => {
       const token = localStorage.getItem("access_token");
   
       const res = await axios.put(
-        `http://localhost:5000/api/comment/likecomment/${commentId}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/comment/likecomment/${commentId}`,
         {},
         {
           headers: {
@@ -112,7 +112,7 @@ const CommentSection = ({ postId }) => {
       const token = localStorage.getItem("access_token");
   
       const res = await axios.put(
-        `http://localhost:5000/api/comment/editcomment/${comment._id}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/comment/editcomment/${comment._id}`,
         { content: editedContent },
         {
           headers: {
@@ -143,7 +143,7 @@ const CommentSection = ({ postId }) => {
       const token = localStorage.getItem("access_token");
   
       const res = await axios.delete(
-        `http://localhost:5000/api/comment/deletecomment/${commentId}`,
+        `https://sarvjyoti-writes-4.onrender.com/api/comment/deletecomment/${commentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
