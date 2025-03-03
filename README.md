@@ -9,7 +9,7 @@
 
 ## Live link : 
 - Server API :  https://sarvjyoti-writes-4.onrender.com
-- Client : https://sarvjyoti-writes-l4iz.vercel.app/
+- Client : https://sarvjyoti-writes-vcij.vercel.app/
 
 ## Directory Structure : 
 - client / src /
