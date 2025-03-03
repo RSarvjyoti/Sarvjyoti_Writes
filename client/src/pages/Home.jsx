@@ -10,13 +10,24 @@ export function Home() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch('http://localhost:5000/api/post/getPosts');
-      const data = await res.json();
-      setPosts(data.posts);
-    };
-    fetchPosts();
-  }, []);
+      try {
+        const token = localStorage.getItem("access_token");
   
+        const res = await axios.get("http://localhost:5000/api/post/getPosts", {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
+  
+        setPosts(res.data.posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error.response?.data?.message || error.message);
+      }
+    };
+  
+    fetchPosts();
+  }, []);  
+
   return (
     <div>
       <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto '>
