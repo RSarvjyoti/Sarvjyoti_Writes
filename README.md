@@ -11,7 +11,9 @@ This is an individual project built in 20 days. Sarvjyoti_Writes is a blog appli
 - **Admin** can create, update, and delete posts.
 - **Users** can read posts, comment, like, and edit/delete their own comments.
 
----
+## Live link : 
+- Server API :  https://sarvjyoti-writes-4.onrender.com
+- Client : https://sarvjyoti-writes-l4iz.vercel.app/
 
 ## Live Links
 
